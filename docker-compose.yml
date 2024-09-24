@@ -1,13 +1,13 @@
-version: '3.8'
+version: '3'
 services:
   mq:
     image: ibmcom/mq:latest
     container_name: ibm-mq-container
     environment:
-      - LICENSE=accept
-      - MQ_QMGR_NAME=QM1
+      LICENSE: accept
+      MQ_QMGR_NAME: QM1
     ports:
-      - "1414:1414"
-      - "9443:9443"
+      - "1414:1414"  # Porta padrão para comunicação MQ
+      - "9443:9443"  # Porta da interface de administração
     volumes:
-      - ./mqdata:/mnt/mqm
+      - ./mqdata:/mnt/mqm  # Volume para persistência de dados

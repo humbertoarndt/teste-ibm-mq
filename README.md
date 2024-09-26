@@ -1,38 +1,60 @@
-# IBM-MQ
+# IBM MQ Producer e Consumer
 
-## Modo de uso
+## Descrição
+Este projeto é um estudo que implementa uma aplicação de exemplo para produzir e consumir mensagens usando IBM MQ em um container Docker.
 
-### Criar Fila
-Crie o diretório onde o container será iniciado, e garanta suas permissões:
+## Estrutura do projeto
+- `/app`: Contém os arquivos da aplicação.
+- `/testes`: Contém os testes unitários para producer e consumer.
+- `/docs`: Documentação adicional e anotações gerais usadas para estudo.
+
+## Como rodar o projeto
+### 1_ Baixe o projeto.
 ```sh
-mkdir mqdata
-chmod -R 777 ./mqdata
+git clone https://github.com/humbertoarndt/teste-ibm-mq.git teste-ibm-mq
 ```
 
-Suba o container.
+### 2_ Acesse o diretório criado.
 ```sh
-docker-compose up -d
+cd teste-ibm-mq
 ```
 
-Cheque se o container está pronto para uso.
+### 3_ Use o Makefile para subir o container IBM MQ.
 ```sh
-docker ps
+make
 ```
 
-Uma mensagem como esta deve ser exibida:
-```
-CONTAINER ID   IMAGE              COMMAND            CREATED          STATUS          PORTS                                                                                            NAMES
-e357b2ba61ee   ibmcom/mq:latest   "runmqdevserver"   10 minutes ago   Up 10 minutes   0.0.0.0:1414->1414/tcp, :::1414->1414/tcp, 0.0.0.0:9443->9443/tcp, :::9443->9443/tcp, 9157/tcp   ibm-mq-container
-```
-
-Acesse o terminal bash dentro do container.
+### 4_ Acesse o terminal do container criado.
 ```sh
 docker exec -it ibm-mq-container /bin/bash
 ```
 
-Os seguintes comando são usados para criar, listar e deletar filas.
+### 5_ Crie uma nova fila no IBM MQ.
 ```sh
-echo "DEFINE QLOCAL('QM1')" | runmqsc QM1
-echo "DISPLAY QUEUE('QM1')" | runmqsc QM1
-echo "DELETE QLOCAL('QM1')" | runmqsc QM1
+echo "DEFINE QLOCAL('minha_fila')" | runmqsc QM1
+```
+
+### 6_ Cheque se a fila foi criada.
+```sh
+echo "DISPLAY QLOCAL('minha_fila')" | runmqsc QM1
+```
+
+### 7_ Instale as dependências do programa (pymqi).
+```sh
+pip install -r requirements.txt
+```
+
+### 8_ Execute o script python para enviar uma mensagem à fila.
+```sh
+python -m app.producer "Sua mensagem aqui"
+```
+
+### 9_ Execute o script python para consumir a primeira mensagem na fila.
+```sh
+python -m app.consumer
+```
+
+### 10_ Execute o comando make clean para remover o diretório `mqdata` e derrubar o container IBM MQ.
+```sh
+make clean
 ```

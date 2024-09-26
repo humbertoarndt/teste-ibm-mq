@@ -1,0 +1,74 @@
+# Get Docker version
+docker --version
+# Docker version 24.0.2, build cb74dfc
+
+# Get Docker Compose version
+docker-copose --version
+# docker-compose version 1.24.0, build 0aa59064
+
+# Get Python version
+py --version
+# Python 3.10.12
+
+# Iniciar container
+docker-compose up -d
+
+# Verificar se o container está rodando
+docker ps
+
+# O que deve ser visto
+CONTAINER ID   IMAGE              COMMAND   CREATED        STATUS        PORTS                                              NAMES
+abc123def456   ibmcom/mq:latest   ...       5 minutes ago  Up 5 minutes  0.0.0.0:1414->1414/tcp, 0.0.0.0:9443->9443/tcp     ibm-mq-container
+
+
+# Como acessar
+Link - http://localhost:9443
+Link - https://localhost:9443
+Usuário - admin
+Senha - passw0rd
+
+# Executar comandos no container
+docker exec -it ibm-mq-container /bin/bash
+
+# Executar comandos MQ para criação de filas com o runmqsc
+runmqsc QM1
+
+# Criar e garantir que a pasta mqdata exista e tenha permissão 777
+chmod -R 777 ./mqdata
+
+mkdir mqdata
+chmod -R 777 ./mqdata
+
+docker-compose up -d
+docker ps
+
+docker-compose logs mq
+
+curl -k https://localhost:9443/
+
+Acessar container do shell container
+docker exec -it ibm-mq-container /bin/bash
+
+criar fila
+echo "DEFINE QLOCAL('minha_fila')" | runmqsc QM1
+
+Verificar se fial existe
+echo "DISPLAY QUEUE('minha_fila')" | runmqsc QM1
+
+Remover fila
+echo "DELETE QLOCAL('minha_fila')" | runmqsc QM1
+
+# deletar/derrubar as coisas
+docker-compose down -v
+
+# ver permissões
+dspmqaut -m QM1 -n minha_fila -t q -p <user>
+
+alterar canal para mqm
+echo "ALTER CHANNEL('DEV.APP.SVRCONN') CHLTYPE(SVRCONN) MCAUSER('app')" | runmqsc QM1
+
+dar permissões que funciona
+echo "SET AUTHREC PROFILE('minha_fila') OBJTYPE(QUEUE) PRINCIPAL(app) AUTHADD(PUT,GET,BROWSE)" | runmqsc QM1
+
+executar com:
+python3 -m app.producer

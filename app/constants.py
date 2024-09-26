@@ -1,3 +1,7 @@
+# ==============================================================================
+# Constants
+# ==============================================================================
+# Valores para conexão com gerenciador de filas
 QUEUE_MGR = "QM1"
 QUEUE_NAME = "minha_fila"
 QUEUE_HOST = "localhost"

@@ -6,7 +6,7 @@ services:
     environment:
       - LICENSE=accept
       - MQ_QMGR_NAME=QM1
-      - MQ_APP_USER=app
+      - MQ_APP_USER=mqm
       - MQ_APP_PASSWORD=your_password
     ports:
       - "1414:1414"

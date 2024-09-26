@@ -2,28 +2,28 @@
 # Imports
 # ==============================================================================
 import unittest
-from app.consumer import consumir_mensagem
+from app.conexao import conectar_fila
 
 # ==============================================================================
 # Classes
 # ==============================================================================
-class TestConsumer(unittest.TestCase):
+class TestConexao(unittest.TestCase):
     """
-    Classe de teste da função 'consumir_mensagem' do 'consumer'.
+    Classe de teste para a função 'conectar_fila' do 'conexao'.
     """
     # ==========================================================================
     # Funções
     # ==========================================================================
-    def teste_consumir_mensagem(self):
+    def teste_conexao(self):
         """
-        Testa a função 'consumir_mensagem' para garantir que a função seja executada
-        corretamente.
+        Testa a função 'conectar_fila' para garantir que uma conexão com a gerenciador
+        de filas seja estabelecida.
 
-        O teste executa a função 'consumir_mensagem' e verifica se ela não lança
-        uma exceção.
+        O teste executa a função 'conectar_fila' e verifica se ela não lança uma
+        exceção.
         """
         try:
-            consumir_mensagem()
+            conectar_fila()
             self.assertTrue(True)
         except Exception:
             self.assertTrue(False)
